@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: navneet0709/task-manager-web
+        image: navneet0709/task-manager-web:latest
         ports:
         - containerPort: 80
 ---
