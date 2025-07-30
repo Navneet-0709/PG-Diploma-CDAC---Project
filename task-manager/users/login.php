@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login</title>
 </head>
 <body>
-    <h2>Login Kar be</h2>
+    <h2>Login</h2>
     <?php if (isset($error)) echo "<p>$error</p>"; ?>
     <?php if (isset($_SESSION['message'])) { echo "<p>{$_SESSION['message']}</p>"; unset($_SESSION['message']); } ?>
     <form method="post">
