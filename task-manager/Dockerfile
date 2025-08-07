@@ -1,14 +1,36 @@
 # Dockerfile
 FROM php:8.1-apache
 
-# Enable PDO extension for MySQL
+# Install required PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy app code to web root
+RUN a2enmod ssl rewrite
+
+RUN a2dissite 000-default
+
+#RUN rm /etc/apache2/sites-enabled/000-default.conf
+
+COPY apache-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+# Copy application code to web root
 COPY . /var/www/html/
 
-# Set proper permissions
+# Set file permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose port
-EXPOSE 80
+# Copy SSL certificates and key
+COPY xcaProject/taskmanager.did.lab.crt /etc/ssl/certs/server.crt
+COPY xcaProject/sslcert-key-pvk.pem /etc/ssl/private/server.key
+COPY xcaProject/taskmanager.did.lab.pem /etc/ssl/certs/server-chain.pem
+
+# Set appropriate permissions on certs
+RUN chmod 600 /etc/ssl/private/server.key && chmod 644 /etc/ssl/certs/server.crt
+
+# Replace Apache's default SSL config with ours
+
+# Enable the SSL site
+
+# Remove default HTTP-only site (optional)
+
+# Expose HTTP and HTTPS ports
+EXPOSE 443
